@@ -11,7 +11,7 @@ import common._
 class BlurSuite extends FunSuite {
 
 
-  /*
+
   test("boxBlurKernel should correctly handle radius 0") {
     val src = new Img(5, 5)
 
@@ -22,7 +22,6 @@ class BlurSuite extends FunSuite {
       assert(boxBlurKernel(src, x, y, 0) === rgba(x, y, x + y, math.abs(x - y)),
         "boxBlurKernel(_,_,0) should be identity.")
   }
-
 
   test("boxBlurKernel should return the correct value on an interior pixel " +
     "of a 3x4 image with radius 1") {
@@ -65,6 +64,7 @@ class BlurSuite extends FunSuite {
     check(2, 2, 0)
   }
 
+/*
 */
 
   test("VerticalBoxBlur.blur with radius 2 should correctly blur the entire " +

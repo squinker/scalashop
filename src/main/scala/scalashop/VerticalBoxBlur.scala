@@ -52,27 +52,19 @@ object VerticalBoxBlur {
     var curRow = 0
 
      while(curCol < end){
-
        curRow = 0
-       println(s"VBB: cur row is $curRow curCol is $curCol")
        while(curRow < src.height){
-         println(s"VBB curRow is $curRow")
+
          val blurredRGBA = boxBlurKernel(src, curCol, curRow, radius)
-
-          println(s"Attempting to update dst image at curCol:$curCol, curRow:$curRow with value ${blurredRGBA}")
-         println(s"Calc will be $curRow * ${dst.width} + $curCol")
-          try {
-
-            dst.update((curCol), curRow, blurredRGBA)
+         try {
+           dst.update((curCol), curRow, blurredRGBA)
           }
          catch{
            case e: Throwable => println(s"Errored trying to update img (height:${dst.height}, width: ${dst.width} at curCol:$curCol, curRow:$curRow")
              throw e
          }
-
          curRow += 1
        }
-
        curCol += 1
      }
   }
@@ -84,8 +76,22 @@ object VerticalBoxBlur {
    *  columns.
    */
   def parBlur(src: Img, dst: Img, numTasks: Int, radius: Int): Unit = {
+
+    println("********** parBlur")
     // TODO implement using the `task` construct and the `blur` method
-    ???
+    val colSize = 3
+    val splittingPoints = (1 to 10).by(colSize).toList
+    (1 to 10)
+      .by(colSize)
+      .toList
+      .zip(splittingPoints.map(n => n+colSize-1)).map{ startEnd =>
+
+      val t = task( blur(src, dst, startEnd._1, startEnd._2, radius) )
+      t.join
+      
+    }
+
+
   }
 
 }
