@@ -5,6 +5,7 @@ import scala.util.Try
 
 package object scalashop {
 
+  val debug = false
   /** The value of every pixel is represented as a 32 bit integer. */
   type RGBA = Int
 
@@ -58,17 +59,17 @@ package object scalashop {
     var alphas: Int = 0
     var counter     = 0
 
-    println(s"BB K called with x:$x y:$y radius: $radius")
+    if (debug) { println(s"BB K called with x:$x y:$y radius: $radius") }
 
-    println(s"xLeftLimit:$xLeftLimit  yUpperLimit: $yUpperLimit\n\n\n")
+    if (debug) { println(s"xLeftLimit:$xLeftLimit  yUpperLimit: $yUpperLimit\n\n\n")}
     while(xPos <= xLeftLimit){
       yPos = initialYPos
       while(yPos <= yUpperLimit) {
 
-        println(s"Trying to get pixel at x: $xPos, y: $yPos, src width is ${src.width} src height is ${src.height}")
+        if (debug) { println(s"Trying to get pixel at x: $xPos, y: $yPos, src width is ${src.width} src height is ${src.height}")}
         val pixel = try{
           val pix = src.apply(xPos, yPos)
-          println(s"Pixel at $xPos, $yPos is $pix")
+          if (debug) { println(s"Pixel at $xPos, $yPos is $pix") }
 
           pix
         }
@@ -88,7 +89,7 @@ package object scalashop {
       xPos += 1
     }
 
-    println(s"Totals reds:$reds, greens:$greens, blues:$blues, alphas:$alphas")
+    if (debug) { println(s"Totals reds:$reds, greens:$greens, blues:$blues, alphas:$alphas") }
 
     rgba(
       Try((reds/counter.toFloat).toInt).getOrElse(0),
