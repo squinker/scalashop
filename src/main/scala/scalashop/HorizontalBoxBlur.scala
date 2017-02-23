@@ -44,7 +44,48 @@ object HorizontalBoxBlur {
   def blur(src: Img, dst: Img, from: Int, end: Int, radius: Int): Unit = {
   // TODO implement this method using the `boxBlurKernel` method
 
-  ???
+    if (debug) {println(s"Vertical bb called with from: $from, end: $end for source image of height ${src.height} , width ${src.width}") }
+    if (debug) {println(s"Destination image has height ${dst.height} and width ${dst.width}")}
+
+    /*
+    var curCol = from
+    var curRow = 0
+
+
+    while(curCol < end){
+      curRow = 0
+      while(curRow < src.height){
+
+        val blurredRGBA = boxBlurKernel(src, curCol, curRow, radius)
+        try {
+          dst.update((curCol), curRow, blurredRGBA)
+        }
+        catch{
+          case e: Throwable => println(s"Errored trying to update img (height:${dst.height}, width: ${dst.width} at curCol:$curCol, curRow:$curRow")
+            throw e
+        }
+        curRow += 1
+      }
+      curCol += 1
+    }
+  */
+    var curRow = from
+    var curCol = 0
+
+    while(curRow < end) {
+      curCol = 0
+       while(curCol < src.width) {
+
+         val blurredRGBA = boxBlurKernel(src, curCol, curRow, radius)
+         dst.update(curCol, curRow, blurredRGBA)
+
+         curCol += 1
+       }
+      curRow +=1
+    }
+
+
+
   }
 
   /** Blurs the rows of the source image in parallel using `numTasks` tasks.

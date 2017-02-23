@@ -23,7 +23,8 @@ object VerticalBoxBlurRunner {
     }
     println(s"sequential blur time: $seqtime ms")
 
-    val numTasks = 32
+    val numTasks = 64
+    println(s"Radius: $radius, numTasks: $numTasks")
     val partime = standardConfig measure {
       VerticalBoxBlur.parBlur(src, dst, numTasks, radius)
     }
@@ -35,7 +36,7 @@ object VerticalBoxBlurRunner {
 
 /** A simple, trivially parallelizable computation. */
 object VerticalBoxBlur {
-
+  val debug = false;
   /** Blurs the columns of the source image `src` into the destination image
    *  `dst`, starting with `from` and ending with `end` (non-inclusive).
    *
@@ -45,8 +46,8 @@ object VerticalBoxBlur {
   def blur(src: Img, dst: Img, from: Int, end: Int, radius: Int): Unit = {
     // TODO implement this method using the `boxBlurKernel` method
 
-    println(s"Vertical bb called with from: $from, end: $end for source image of height ${src.height} , width ${src.width}")
-    println(s"Destination image has height ${dst.height} and width ${dst.width}")
+    if (debug) {println(s"Vertical bb called with from: $from, end: $end for source image of height ${src.height} , width ${src.width}") }
+    if (debug) {println(s"Destination image has height ${dst.height} and width ${dst.width}")}
 
     var curCol = from
     var curRow = 0
